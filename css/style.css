@@ -1,0 +1,1697 @@
+/* Base Styles */
+:root {
+    --primary-color: #020497;
+    --primary-light: #818cf8;
+    --primary-dark: #0c04b1;
+    --secondary-color: #10b981;
+    --tertiary-color: #f59e0b;
+    --accent-color: #ec4899;
+    --bg-color: #cad2db;
+    --card-bg: #ffffff;
+    --sidebar-bg: #121212;
+    --text-dark: #000000;
+    --text-light: #000000;
+    --text-lighter: #f3f4f6;
+    --border-color: #e5e7eb;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-3d: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-3d-hover: 0 12px 28px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    --transition: all 0.3s ease;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    
+    /* Feature-specific colors */
+    --mood-color: #8b5cf6;
+    --water-color: #0ea5e9;
+    --breathing-color: #06b6d4;
+    --meals-color: #f97316;
+    --sleep-color: #6366f1;
+    --fitness-color: #ef4444;
+    --stretch-color: #8b5cf6;
+    --journal-color: #10b981;
+    --weight-color: #0ea5e9;
+    --health-color: #ef4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* background-color: var(--bg-color); */
+    background-color: rgb(95, 70, 236);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+/* Navigation Toggle Button */
+.nav-toggle {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1000;
+    background-color: rgb(12, 29, 185);
+    /* background: var(--primary-color); */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.nav-toggle:hover {
+    /* background: var(--primary-dark); */
+    background-color: rgba(1, 247, 22, 0.664);
+    transform: scale(1.05);
+}
+
+.nav-toggle i {
+    font-size: 1.25rem;
+}
+
+/* Only hide toggle button on desktop */
+@media (min-width: 769px) {
+    .nav-toggle {
+        display: none;
+    }
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    width: 280px;
+    /* background: linear-gradient(135deg, var(--sidebar-bg) 0%, #000000 100%); */
+    background-color:black;
+    color: var(--text-lighter);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease;
+    z-index: 990;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.966);
+    overflow-y: auto;
+}
+
+.logo h2 {
+    color: white;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: linear-gradient(45deg, var(--primary-light), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-links li {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-links li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    /* nn */
+    background-color: rgb(73, 37, 233);
+    /* background: var(--primary-color); */
+    transform: scaleY(0);
+    transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s;
+    z-index: -1;
+}
+
+.nav-links li:hover::before {
+    transform: scaleY(1);
+    width: 100%;
+}
+
+.nav-links li:hover {
+    color: white;
+    padding-left: 1.5rem;
+}
+
+.nav-links li.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(10, 14, 228, 0.3);
+}
+
+.nav-links li.active::before {
+    transform: scaleY(1);
+    width: 100%;
+}
+
+.nav-links i {
+    width: 1.5rem;
+    text-align: center;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.nav-links li:hover i {
+    transform: translateY(-2px);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.user-profile:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.profile-pic i {
+    font-size: 2.5rem;
+    color: var(--primary-light);
+}
+
+.profile-info h3 {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.profile-info p {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.profile-info p:hover {
+    text-decoration: underline;
+    color: var(--primary-light);
+}
+
+/* Main Content Area */
+.content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    transition: all 0.3s ease;
+}
+
+h1 {
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 1.75rem;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+    opacity: 0;
+}
+
+.tab-content.active {
+    display: block;
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dashboard Styles */
+.overview-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    border-top: 4px solid transparent;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-3d);
+    z-index: 1;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent-color) 100%);
+    transform: translateZ(20px);
+    transition: opacity 0.3s ease;
+    opacity: 0.7;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card h3 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    position: relative;
+    display: inline-block;
+}
+
+.card h3:after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), transparent);
+    transition: width 0.3s ease;
+    opacity: 0.7;
+}
+
+.card:hover h3:after {
+    width: 100%;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mood-summary .emoji {
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 0.5rem 0;
+}
+
+.water-progress {
+    height: 10px;
+    background-color: #e5e7eb;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    --water-fill: 37.5%; /* Default value, will be updated by JS */
+}
+
+.water-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: var(--water-fill); /* Use the custom property */
+    background-color: var(--water-color);
+    border-radius: 5px;
+    transition: width 0.5s ease-out;
+}
+
+.sleep-hours h4 {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 0.25rem;
+}
+
+.sleep-hours p {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.activity-progress {
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 40%; /* 2/5 activities */
+    background-color: var(--primary-color);
+    border-radius: 4px;
+}
+
+.recent-stats {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.stat-chart-container h3 {
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.stat-chart {
+    height: 300px;
+    background-color: var(--card-bg);
+}
+
+/* Mood Tracker Styles */
+.mood-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.mood-input, .mood-calendar {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.emoji-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 1.5rem 0;
+}
+
+.emoji-btn {
+    background: none;
+    border: 2px solid transparent;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.emoji-btn:hover {
+    background-color: var(--bg-color);
+    transform: scale(1.1);
+}
+
+.emoji-btn.active {
+    border-color: var(--mood-color);
+    box-shadow: 0 0 0 2px rgba(4, 8, 230, 0.897);
+}
+
+.mood-notes {
+    margin-top: 1.5rem;
+}
+
+.mood-notes textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    font-family: inherit;
+    resize: none;
+    margin-bottom: 1rem;
+}
+
+.save-mood {
+    background-color: var(--mood-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.save-mood:hover {
+    background-color: #7c3aed;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: var(--text-dark);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1/1;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.mood-history {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    margin-top: 2rem;
+}
+
+.mood-chart {
+    height: 250px;
+    margin-top: 1rem;
+}
+
+/* Water Intake Tracker Styles */
+.water-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.water-goal-setter, .water-tracker {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.goal-adjuster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    font-size: 1.25rem;
+}
+
+.decrease-goal, .increase-goal {
+    background-color: var(--bg-color);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.25rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.water-visual {
+    height: 200px;
+    min-height: 150px;
+    background-color: #f0f9ff;
+    border-radius: var(--radius-md);
+    position: relative;
+    overflow: hidden;
+    margin: 1.5rem 0;
+    border: 1px solid #bae6fd;
+}
+
+.water-level {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0%; /* Will be updated with JavaScript */
+    background-color: var(--water-color);
+    transition: height 0.5s ease-out;
+}
+
+.cups-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.cup-btn {
+    aspect-ratio: 1/1;
+    border: 2px solid var(--water-color);
+    background-color: white;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition);
+}
+
+.cup-btn::before {
+    content: '💧';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    opacity: 0.3;
+    transition: var(--transition);
+}
+
+.cup-btn.filled {
+    background-color: #e0f2fe;
+}
+
+.cup-btn.filled::before {
+    opacity: 1;
+}
+
+.water-status {
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.water-history {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.water-chart {
+    height: 250px;
+    margin-top: 1rem;
+}
+
+/* Breathing Exercise Styles */
+.breathing-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.breathing-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 300px;
+}
+
+.circle-outline {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid var(--breathing-color);
+    position: absolute;
+    transform: scale(1);
+}
+
+.circle-fill {
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    background-color: rgba(6, 182, 212, 0.1);
+    position: absolute;
+    transform: scale(1);
+}
+
+.breathing-text {
+    color: var(--text-dark);
+    font-size: 1.25rem;
+    z-index: 10;
+}
+
+.breathing-controls {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.start-breathing {
+    background-color: var(--breathing-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.start-breathing:hover {
+    background-color: #0891b2;
+}
+
+.timer {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.exercise-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.exercise-type {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.exercise-type:hover {
+    background-color: var(--border-color);
+}
+
+.exercise-type.active {
+    background-color: var(--breathing-color);
+    color: white;
+    border-color: var(--breathing-color);
+}
+
+.breathing-info {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    margin-top: 2rem;
+}
+
+.breathing-info ul {
+    list-style-position: inside;
+    margin-top: 1rem;
+}
+
+.breathing-info li {
+    margin-bottom: 0.5rem;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 80px;
+        padding: 2rem 0.75rem;
+    }
+    
+    .content {
+        margin-left: 80px;
+        width: calc(100% - 80px);
+    }
+
+    .logo h2 {
+        font-size: 0;
+        overflow: hidden;
+        margin-bottom: 3rem;
+    }
+
+    .logo h2::first-letter {
+        font-size: 1.75rem;
+        color: white;
+        -webkit-text-fill-color: white;
+    }
+
+    .profile-info {
+        display: none;
+    }
+
+    .nav-links li {
+        padding: 0.75rem 0;
+        justify-content: center;
+    }
+
+    .nav-links li span {
+        display: none;
+    }
+
+    .nav-links i {
+        width: auto;
+        font-size: 1.25rem;
+    }
+
+    .user-profile {
+        justify-content: center;
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: flex;
+    }
+
+    .sidebar {
+        left: -280px; /* Start offscreen */
+        width: 250px;
+        transform: none; /* Don't use transform to avoid issues */
+    }
+
+    .sidebar.active {
+        left: 0; /* Show when active */
+        transform: none;
+    }
+    
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .logo h2 {
+        font-size: 1.5rem;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links li span {
+        display: inline;
+    }
+
+    .profile-info {
+        display: block;
+    }
+
+    .overview-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding: 1rem;
+    }
+
+    .sidebar {
+        width: 220px;
+    }
+}
+
+/* Animation classes */
+.sidebar-appear {
+    animation: sidebarAppear 0.5s forwards;
+}
+
+@keyframes sidebarAppear {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.nav-item-appear {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: navItemAppear 0.5s forwards;
+}
+
+@keyframes navItemAppear {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animation Classes */
+.pulsate {
+    animation: pulsate 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.breathe-in {
+    animation: breatheIn 4s ease-in-out;
+}
+
+@keyframes breatheIn {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.3);
+    }
+}
+
+.breathe-out {
+    animation: breatheOut 4s ease-in-out;
+}
+
+@keyframes breatheOut {
+    from {
+        transform: scale(1.3);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.breathe-hold {
+    animation: breatheHold 4s ease-in-out;
+}
+
+@keyframes breatheHold {
+    from, to {
+        transform: scale(1.3);
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+/* Additional sections (meals, sleep, fitness, etc.) will have their styles added below */
+
+/* Meal Logger Styles */
+.meals-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.meal-entry, .meal-summary {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.meal-form {
+    margin-top: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+}
+
+.add-meal {
+    background-color: var(--meals-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.add-meal:hover {
+    background-color: #ea580c;
+}
+
+.calorie-circle {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.calorie-chart {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.calorie-bg {
+    fill: none;
+    stroke: #f3f4f6;
+    stroke-width: 2.8;
+}
+
+.calorie-fill {
+    fill: none;
+    stroke: var(--meals-color);
+    stroke-width: 2.8;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100; /* Will be updated with JavaScript */
+}
+
+.calorie-text {
+    font-size: 0.6rem;
+    text-anchor: middle;
+    fill: var(--text-dark);
+    font-weight: 600;
+    transform: rotate(90deg);
+}
+
+.calorie-label {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.calorie-breakdown {
+    margin-top: 1.5rem;
+}
+
+.meal-type-calories {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.meal-type-calories.total {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+.meal-history {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.meal-list {
+    margin-top: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-light);
+    padding: 2rem 0;
+}
+
+/* Sleep Tracker Styles */
+.sleep-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.sleep-log, .sleep-stats {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.time-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.rating {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    color: #d1d5db;
+}
+
+.star {
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    user-select: none;
+}
+
+.star:hover, .star.active {
+    color: #fbbf24;
+}
+
+.star.hover {
+    color: #fcd34d; /* Light yellow for hover */
+    transform: scale(1.1);
+}
+
+.star.active {
+    color: #f59e0b; /* Golden yellow for selected */
+}
+
+.quality-stars {
+    color: #f59e0b;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+}
+
+/* Animation for star selection */
+@keyframes star-pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.star.active {
+    animation: star-pulse 0.3s ease-in-out;
+}
+
+.save-sleep {
+    background-color: var(--sleep-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+    margin-top: 1rem;
+}
+
+.save-sleep:hover {
+    background-color: #4f46e5;
+}
+
+.sleep-graph-container {
+    margin: 1.5rem 0;
+    height: 200px;
+}
+
+.sleep-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    text-align: center;
+}
+
+.metric h4 {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.metric p {
+    font-weight: 600;
+}
+
+/* Fitness Routine Styles */
+.fitness-container {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+}
+
+.routine-selector {
+    margin-bottom: 2rem;
+}
+
+.routine-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.routine-btn {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.routine-btn:hover {
+    background-color: var(--border-color);
+}
+
+.routine-btn.active {
+    background-color: var(--fitness-color);
+    color: white;
+    border-color: var(--fitness-color);
+}
+
+.routine-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.start-routine {
+    background-color: var(--fitness-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.start-routine:hover {
+    background-color: #dc2626;
+}
+
+.exercise-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.exercise-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.exercise-check {
+    margin-right: 1rem;
+}
+
+.exercise-details {
+    flex: 1;
+}
+
+.exercise-details h4 {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.exercise-details p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.exercise-timer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.timer-btn {
+    background-color: var(--fitness-color);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.timer-btn:hover {
+    background-color: #dc2626;
+}
+
+.time-display {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.fitness-progress {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.progress-chart {
+    height: 250px;
+    margin-top: 1rem;
+}
+
+/* Notification Styles */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+}
+
+.notification {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: notification-slide-in 0.3s forwards;
+}
+
+.notification.success {
+    background-color: var(--secondary-color);
+}
+
+.notification.error {
+    background-color: #ef4444;
+}
+
+@keyframes notification-slide-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes notification-slide-out {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Add more component-specific styles as needed */
+
+@keyframes emoji-pulse {
+    0% {
+        transform: scale(0.8);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Button 3D effects */
+.btn, .save-mood, .save-sleep, .start-routine, .save-weight, .start-breathing, .add-meal, .add-running {
+    transform: translateY(0);
+    box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn:hover, .save-mood:hover, .save-sleep:hover, .start-routine:hover, .save-weight:hover, .start-breathing:hover, .add-meal:hover, .add-running:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.btn:active, .save-mood:active, .save-sleep:active, .start-routine:active, .save-weight:active, .start-breathing:active, .add-meal:active, .add-running:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Cards with 3D gradients */
+.mood-summary {
+    border-top-color: var(--mood-color);
+    background: linear-gradient(135deg, white 0%, #f3f4ff 100%);
+}
+
+.water-summary {
+    border-top-color: var(--water-color);
+    background: linear-gradient(135deg, white 0%, #f0f9ff 100%);
+}
+
+.sleep-summary {
+    border-top-color: var(--sleep-color);
+    background: linear-gradient(135deg, white 0%, #f5f3ff 100%);
+}
+
+.activity-summary {
+    border-top-color: var(--fitness-color);
+    background: linear-gradient(135deg, white 0%, #fff1f2 100%);
+}
+
+/* 3D charts */
+.stat-chart, .mood-chart, .water-chart, .sleep-graph, .weight-graph {
+    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+    position: relative;
+}
+
+.stat-chart:hover, .mood-chart:hover, .water-chart:hover, .sleep-graph:hover, .weight-graph:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: var(--shadow-3d);
+}
+
+/* 3D progress containers */
+.water-progress, .sleep-breakdown, .activity-progress {
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 800px;
+}
+
+.water-progress::before, .sleep-breakdown::before, .activity-progress::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.water-progress:hover::before, .sleep-breakdown:hover::before, .activity-progress:hover::before {
+    opacity: 1;
+}
+
+/* 3D effects for various elements */
+.emoji-btn, .cup-btn, .exercise-type, .routine-btn, .sound-btn {
+    transform: translateZ(0);
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+.emoji-btn:hover, .cup-btn:hover, .exercise-type:hover, .routine-btn:hover, .sound-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-3d);
+}
+
+.emoji-btn:active, .cup-btn:active, .exercise-type:active, .routine-btn:active, .sound-btn:active {
+    transform: translateY(1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 3D progress bars */
+.progress-container, .water-progress, .water-visual {
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-inner);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+}
+
+/* 3D charts */
+.stat-chart, .mood-chart, .water-chart, .weight-graph, .correlation-chart, .hrv-chart {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-3d);
+    padding: 1rem;
+    background-color: var(--card-bg);
+    transform: translateZ(0);
+    transition: var(--transition);
+}
+
+/* 3D form elements */
+input, select, textarea {
+    box-shadow: var(--shadow-sm);
+}
+
+input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+/* 3D toggle buttons */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+    box-shadow: var(--shadow-inner);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: var(--shadow-md);
+}
+
+input:checked + .toggle-slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+    box-shadow: var(--shadow-3d);
+}
+
+/* 3D calendar elements */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    box-shadow: var(--shadow-3d);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    background-color: var(--card-bg);
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transform: translateZ(0);
+}
+
+.calendar-day:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.calendar-day.has-mood {
+    box-shadow: var(--shadow-md);
+}
+
+/* 3D notification system */
+.notification {
+    box-shadow: var(--shadow-3d);
+    transform: translateZ(0);
+    transition: var(--transition);
+}
+
+.notification:hover {
+    transform: translateY(-2px) translateX(-2px);
+    box-shadow: var(--shadow-3d-hover);
+}
+
+/* 3D breathing circle */
+.breathing-circle {
+    box-shadow: var(--shadow-3d);
+    transform: translateZ(0);
+    transition: var(--transition);
+}
+
+.breathing-circle.animate {
+    animation: breathe 8s infinite ease-in-out;
+}
+
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(0.8);
+        box-shadow: var(--shadow-md);
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: var(--shadow-3d-hover);
+    }
+}
+
+/* 3D meditation elements */
+.breath-circle {
+    box-shadow: var(--shadow-3d);
+    transform: translateZ(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 3D stretching elements */
+.stretch-item {
+    box-shadow: var(--shadow-3d);
+    transform: translateZ(0);
+    transition: var(--transition);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--card-bg);
+    /* background-color: black; */
+}
+
+.stretch-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-3d-hover);
+}
+
+/* Global 3D effect for clickable elements */
+button, .clickable {
+    position: relative;
+    transform: translateZ(0);
+    transition: var(--transition);
+}
+
+button:active, .clickable:active {
+    transform: translateY(2px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 3D neumorphic design for certain elements */
+.neumorphic {
+    background-color: var(--bg-color);
+    border-radius: var(--radius-md);
+    box-shadow: 
+        8px 8px 16px rgb(0, 0, 0),
+        -8px -8px 16px rgba(255, 255, 255, 0.7);
+    transform: translateZ(0);
+    transition: var(--transition);
+}
+
+.neumorphic:hover {
+    box-shadow: 
+        10px 10px 20px rgba(0, 0, 0, 0.12),
+        -10px -10px 20px rgba(255, 255, 255, 0.8);
+}
+
+.neumorphic:active {
+    box-shadow: 
+        inset 4px 4px 8px rgba(0, 0, 0, 0.973),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.7);
+}
+
+/* Glassmorphism for certain elements */
+.glass {
+    background: rgba(12, 1, 1, 0.808);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(15, 1, 1, 0.979);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.781);
+    border-radius: var(--radius-md);
+} 
+
+

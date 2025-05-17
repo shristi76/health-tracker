@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Tracker</title>
+    <!-- Preload critical assets -->
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Prevent flash of unstyled content -->
+    <style>
+        body {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .loaded {
+            opacity: 1;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- <script>
+        // Immediate check for login status before rendering anything
+        if (!localStorage.getItem('wellnessHubUser')) {
+            window.location.href = 'login.html';
+        } else {
+            try {
+                const userData = JSON.parse(localStorage.getItem('wellnessHubUser'));
+                if (!userData || !userData.isLoggedIn) {
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+                window.location.href = 'login.html';
+            }
+        }
+    </script> -->
+    <button class="nav-toggle" aria-label="toggle navigation">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>WellnessHub</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-tab="dashboard"><i class="fas fa-home"></i> <span>Dashboard</span></li>
+                <li data-tab="mood"><i class="fas fa-smile"></i> <span>Mood Tracker</span></li>
+                <li data-tab="water"><i class="fas fa-tint"></i> <span>Water Intake</span></li>
+                <li data-tab="breathing"><i class="fas fa-wind"></i> <span>Breathing</span></li>
+                <li data-tab="meals"><i class="fas fa-utensils"></i> <span>Meal Logger</span></li>
+                <li data-tab="sleep"><i class="fas fa-moon"></i> <span>Sleep Tracker</span></li>
+                <li data-tab="fitness"><i class="fas fa-dumbbell"></i> <span>Fitness</span></li>
+                <li data-tab="stretch"><i class="fas fa-running"></i> <span>Stretching</span></li>
+                <li data-tab="journal"><i class="fas fa-book"></i> <span>Journal</span></li>
+                <li data-tab="weight"><i class="fas fa-weight"></i> <span>Weight</span></li>
+                <li data-tab="health"><i class="fas fa-heartbeat"></i> <span>Health Data</span></li>
+            </ul>
+            <div class="user-profile">
+                <div class="profile-pic">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h3>User Profile</h3>
+                    <p>Manage Account</p>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Settings Modal -->
+        <div class="settings-modal" id="settings-modal">
+            <div class="settings-content">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                    <button class="close-settings">&times;</button>
+                </div>
+                <div class="settings-body">
+                    <div class="settings-section">
+                        <h3>Profile</h3>
+                        <div class="form-group">
+                            <label for="settings-name">Display Name</label>
+                            <input type="text" id="settings-name" placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="settings-email">Email</label>
+                            <input type="email" id="settings-email" placeholder="Your Email" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Health Data</h3>
+                        <div class="form-group">
+                            <label for="settings-weight">Weight (kg)</label>
+                            <input type="number" id="settings-weight" placeholder="Your weight in kg" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="settings-height">Height (cm)</label>
+                            <input type="number" id="settings-height" placeholder="Your height in cm" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="settings-calorie-goal">Daily Calorie Goal</label>
+                            <input type="number" id="settings-calorie-goal" placeholder="Daily calorie goal">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="toggle-group">
+                            <label for="settings-reminders">Enable Reminders</label>
+                            <label class="toggle">
+                                <input type="checkbox" id="settings-reminders">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-group">
+                            <label for="settings-sounds">Enable Sounds</label>
+                            <label class="toggle">
+                                <input type="checkbox" id="settings-sounds" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Theme</h3>
+                        <div class="theme-options">
+                            <div class="theme-option" data-theme="default">
+                                <div class="theme-preview default-theme"></div>
+                                <span>Default</span>
+                            </div>
+                            <div class="theme-option" data-theme="dark">
+                                <div class="theme-preview dark-theme"></div>
+                                <span>Dark</span>
+                            </div>
+                            <div class="theme-option" data-theme="calm">
+                                <div class="theme-preview calm-theme"></div>
+                                <span>Calm</span>
+                            </div>
+                            <div class="theme-option" data-theme="energetic">
+                                <div class="theme-preview energetic-theme"></div>
+                                <span>Energetic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-footer">
+                    <button class="save-settings-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        
+        <main class="content">
+            <section id="dashboard" class="tab-content active">
+                <h1>Welcome to Your Wellness Dashboard</h1>
+                <div class="overview-cards">
+                    <div class="card mood-summary">
+                        <h3>Mood Summary</h3>
+                        <div class="card-content">
+                            <div class="today-mood">
+                                <p>Today's Mood</p>
+                                <div class="emoji">😊</div>
+                            </div>
+                            <div class="week-trend">
+                                <div class="mini-calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card water-summary">
+                        <h3>Water Intake</h3>
+                        <div class="card-content">
+                            <div class="progress-container">
+                                <div class="water-progress"></div>
+                            </div>
+                            <p><span class="water-count">3</span> / <span class="water-goal">8</span> cups</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card sleep-summary">
+                        <h3>Sleep</h3>
+                        <div class="card-content">
+                            <div class="sleep-hours">
+                                <h4>Last Night</h4>
+                                <p><span class="last-sleep">7.5</span> hrs</p>
+                            </div>
+                            <div class="sleep-mini-graph"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card activity-summary">
+                        <h3>Activity Today</h3>
+                        <div class="card-content">
+                            <div class="activity-progress"></div>
+                            <p><span class="activity-done">2</span> / <span class="activity-goal">5</span> activities</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recent-stats">
+                    <div class="stat-chart-container">
+                        <h3>Weekly Overview</h3>
+                        <div class="stat-chart"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="mood" class="tab-content">
+                <h1>Mood Tracker</h1>
+                <div class="mood-container">
+                    <div class="mood-input">
+                        <h3>How are you feeling today?</h3>
+                        <div class="emoji-buttons">
+                            <button class="emoji-btn" data-mood="5">😁</button>
+                            <button class="emoji-btn" data-mood="4">😊</button>
+                            <button class="emoji-btn" data-mood="3">😐</button>
+                            <button class="emoji-btn" data-mood="2">😔</button>
+                            <button class="emoji-btn" data-mood="1">😢</button>
+                        </div>
+                        <div class="mood-notes">
+                            <textarea placeholder="Add any notes about your mood today..."></textarea>
+                            <button class="save-mood">Save</button>
+                        </div>
+                    </div>
+                    <div class="mood-calendar">
+                        <h3>Your Mood Calendar</h3>
+                        <div class="calendar-header">
+                            <button class="prev-month">&lt;</button>
+                            <h4 class="current-month">September 2023</h4>
+                            <button class="next-month">&gt;</button>
+                        </div>
+                        <div class="calendar-grid">
+                            <!-- Calendar will be generated with JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                <div class="mood-history">
+                    <h3>Mood Trends</h3>
+                    <div class="mood-chart"></div>
+                </div>
+            </section>
+            
+            <section id="water" class="tab-content">
+                <h1>Water Intake Tracker</h1>
+                <div class="water-container">
+                    <div class="water-goal-setter">
+                        <h3>Your Daily Goal</h3>
+                        <div class="goal-adjuster">
+                            <button class="decrease-goal">-</button>
+                            <span class="current-goal">8</span> cups
+                            <button class="increase-goal">+</button>
+                        </div>
+                    </div>
+                    <div class="water-tracker">
+                        <h3>Today's Progress</h3>
+                        <div class="water-visual">
+                            <div class="water-level"></div>
+                        </div>
+                        <div class="cups-container">
+                            <button class="cup-btn"></button>
+                            <button class="cup-btn"></button>
+                            <button class="cup-btn"></button>
+                            <button class="cup-btn"></button>
+                            <button class="cup-btn"></button>
+                            <button class="cup-btn"></button>
+                            <button class="cup-btn"></button>
+                            <button class="cup-btn"></button>
+                        </div>
+                        <p class="water-status"><span class="current-intake">0</span> of <span class="water-target">8</span> cups</p>
+                    </div>
+                </div>
+                <div class="water-history">
+                    <h3>Weekly Water Intake</h3>
+                    <div class="water-chart"></div>
+                </div>
+            </section>
+            
+            <section id="breathing" class="tab-content">
+                <h1>Breathing Exercise</h1>
+                <div class="breathing-container">
+                    <div class="breathing-circle">
+                        <div class="circle-outline"></div>
+                        <div class="circle-fill"></div>
+                        <p class="breathing-text">Breathe In</p>
+                    </div>
+                    <div class="breathing-controls">
+                        <button class="start-breathing">Start Exercise</button>
+                        <div class="timer">
+                            <span class="minutes">2</span>:<span class="seconds">00</span>
+                        </div>
+                        <div class="exercise-selector">
+                            <button class="exercise-type active" data-type="4-4-4-4">Box Breathing</button>
+                            <button class="exercise-type" data-type="4-7-8">4-7-8 Technique</button>
+                            <button class="exercise-type" data-type="deep">Deep Breathing</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="breathing-info">
+                    <h3>Benefits of Breathing Exercises</h3>
+                    <ul>
+                        <li>Reduces stress and anxiety</li>
+                        <li>Lowers blood pressure</li>
+                        <li>Improves focus and concentration</li>
+                        <li>Promotes better sleep</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section id="meals" class="tab-content">
+                <h1>Meal Log</h1>
+                <div class="meals-container">
+                    <div class="meal-entry">
+                        <h3>Add New Meal</h3>
+                        <form class="meal-form">
+                            <div class="form-group">
+                                <label for="meal-type">Meal Type</label>
+                                <select id="meal-type">
+                                    <option value="breakfast">Breakfast</option>
+                                    <option value="lunch">Lunch</option>
+                                    <option value="dinner">Dinner</option>
+                                    <option value="snack">Snack</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="meal-name">Meal Description</label>
+                                <input type="text" id="meal-name" placeholder="e.g., Grilled chicken salad">
+                            </div>
+                            <div class="form-group">
+                                <label for="meal-calories">Calories</label>
+                                <input type="number" id="meal-calories" placeholder="e.g., 350">
+                            </div>
+                            <div class="form-group">
+                                <label for="meal-time">Time</label>
+                                <input type="time" id="meal-time">
+                            </div>
+                            <button type="submit" class="add-meal">Add Meal</button>
+                        </form>
+                    </div>
+                    <div class="meal-summary">
+                        <h3>Today's Summary</h3>
+                        <div class="calorie-summary">
+                            <div class="calorie-circle">
+                                <svg viewBox="0 0 36 36" class="calorie-chart">
+                                    <path class="calorie-bg" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="calorie-fill" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="20.35" class="calorie-text">0</text>
+                                </svg>
+                                <div class="calorie-label"></div>
+                            </div>
+                            <div class="calorie-breakdown">
+                                <div class="meal-type-calories">
+                                    <span class="meal-type">Breakfast:</span>
+                                    <span class="meal-calories">0</span> cal
+                                </div>
+                                <div class="meal-type-calories">
+                                    <span class="meal-type">Lunch:</span>
+                                    <span class="meal-calories">0</span> cal
+                                </div>
+                                <div class="meal-type-calories">
+                                    <span class="meal-type">Dinner:</span>
+                                    <span class="meal-calories">0</span> cal
+                                </div>
+                                <div class="meal-type-calories">
+                                    <span class="meal-type">Snacks:</span>
+                                    <span class="meal-calories">0</span> cal
+                                </div>
+                                <div class="meal-type-calories total">
+                                    <span class="meal-type">Total:</span>
+                                    <span class="meal-calories">0</span> cal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Running Model Section -->
+                <div class="running-container">
+                    <div class="running-entry">
+                        <h3>Running Tracker</h3>
+                        <form class="running-form">
+                            <div class="form-group">
+                                <label for="running-date">Date</label>
+                                <input type="date" id="running-date">
+                            </div>
+                            <div class="form-group">
+                                <label for="running-distance">Distance (km)</label>
+                                <input type="number" id="running-distance" step="0.01" placeholder="e.g., 5.0">
+                            </div>
+                            <div class="form-group">
+                                <label for="running-time">Duration (minutes)</label>
+                                <input type="number" id="running-time" placeholder="e.g., 30">
+                            </div>
+                            <div class="form-group">
+                                <label for="running-intensity">Intensity</label>
+                                <select id="running-intensity">
+                                    <option value="low">Low (Jogging)</option>
+                                    <option value="medium" selected>Medium (Steady Run)</option>
+                                    <option value="high">High (Intense Run)</option>
+                                    <option value="sprint">Sprint Intervals</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="add-running">Add Running Activity</button>
+                        </form>
+                    </div>
+                    <div class="running-summary">
+                        <h3>Running Statistics</h3>
+                        <div class="calorie-burn-display">
+                            <div class="calories-burned-circle">
+                                <svg viewBox="0 0 36 36" class="burn-chart">
+                                    <path class="burn-bg" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="burn-fill" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="20.35" class="burn-text">0</text>
+                                </svg>
+                                <div class="burn-label">Calories Burned</div>
+                            </div>
+                            <div class="running-stats">
+                                <div class="running-stat">
+                                    <span class="stat-label">Today's Distance:</span>
+                                    <span class="stat-value distance-value">0</span> km
+                                </div>
+                                <div class="running-stat">
+                                    <span class="stat-label">Today's Duration:</span>
+                                    <span class="stat-value time-value">0</span> min
+                                </div>
+                                <div class="running-stat">
+                                    <span class="stat-label">Avg. Pace:</span>
+                                    <span class="stat-value pace-value">0:00</span> min/km
+                                </div>
+                                <div class="running-stat total">
+                                    <span class="stat-label">Net Calories:</span>
+                                    <span class="stat-value net-value">0</span> cal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="running-history">
+                    <h3>Recent Running Activities</h3>
+                    <div class="running-list">
+                        <!-- Running items will be added here with JavaScript -->
+                        <div class="empty-state">No running activities logged</div>
+                    </div>
+                </div>
+                
+                <div class="meal-history">
+                    <h3>Today's Meals</h3>
+                    <div class="meal-list">
+                        <!-- Meal items will be added here with JavaScript -->
+                        <div class="empty-state">No meals logged today</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="sleep" class="tab-content">
+                <h1>Sleep Tracker</h1>
+                <div class="sleep-container">
+                    <div class="sleep-log">
+                        <h3>Log Your Sleep</h3>
+                        <div class="sleep-form">
+                            <div class="form-group">
+                                <label for="sleep-date">Date</label>
+                                <input type="date" id="sleep-date">
+                            </div>
+                            <div class="time-inputs">
+                                <div class="form-group">
+                                    <label for="sleep-time">Bedtime</label>
+                                    <input type="time" id="sleep-time">
+                                </div>
+                                <div class="form-group">
+                                    <label for="wake-time">Wake Time</label>
+                                    <input type="time" id="wake-time">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sleep-quality">Sleep Quality</label>
+                                <div class="rating">
+                                    <span class="star" data-rating="1">★</span>
+                                    <span class="star" data-rating="2">★</span>
+                                    <span class="star" data-rating="3">★</span>
+                                    <span class="star" data-rating="4">★</span>
+                                    <span class="star" data-rating="5">★</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sleep-notes">Notes</label>
+                                <textarea id="sleep-notes" placeholder="How did you sleep? Any disturbances?"></textarea>
+                            </div>
+                            <button class="save-sleep">Save Sleep Log</button>
+                        </div>
+                    </div>
+                    <div class="sleep-stats">
+                        <h3>Sleep Statistics</h3>
+                        <div class="sleep-graph-container">
+                            <div class="sleep-graph"></div>
+                        </div>
+                        <div class="sleep-metrics">
+                            <div class="metric">
+                                <h4>Avg. Sleep Duration</h4>
+                                <p><span class="avg-duration">7.5</span> hrs</p>
+                            </div>
+                            <div class="metric">
+                                <h4>Avg. Sleep Quality</h4>
+                                <div class="quality-stars">★★★★☆</div>
+                            </div>
+                            <div class="metric">
+                                <h4>Optimal Bedtime</h4>
+                                <p><span class="optimal-time">10:30 PM</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="fitness" class="tab-content">
+                <h1>Fitness Routine</h1>
+                <div class="fitness-container">
+                    <div class="routine-selector">
+                        <h3>Select Routine</h3>
+                        <div class="routine-options">
+                            <button class="routine-btn active" data-routine="cardio">Cardio</button>
+                            <button class="routine-btn" data-routine="strength">Strength</button>
+                            <button class="routine-btn" data-routine="yoga">Yoga</button>
+                            <button class="routine-btn" data-routine="custom">Custom</button>
+                        </div>
+                    </div>
+                    
+                    <div class="current-routine">
+                        <div class="routine-header">
+                            <h3>Cardio Routine</h3>
+                            <button class="start-routine">Start Workout</button>
+                        </div>
+                        <div class="exercise-list">
+                            <div class="exercise-item">
+                                <div class="exercise-check">
+                                    <input type="checkbox" class="exercise-done">
+                                </div>
+                                <div class="exercise-details">
+                                    <h4>Jumping Jacks</h4>
+                                    <p>3 sets x 30 seconds</p>
+                                </div>
+                                <div class="exercise-timer">
+                                    <button class="timer-btn"><i class="fas fa-play"></i></button>
+                                    <span class="time-display">00:30</span>
+                                </div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="exercise-check">
+                                    <input type="checkbox" class="exercise-done">
+                                </div>
+                                <div class="exercise-details">
+                                    <h4>High Knees</h4>
+                                    <p>3 sets x 45 seconds</p>
+                                </div>
+                                <div class="exercise-timer">
+                                    <button class="timer-btn"><i class="fas fa-play"></i></button>
+                                    <span class="time-display">00:45</span>
+                                </div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="exercise-check">
+                                    <input type="checkbox" class="exercise-done">
+                                </div>
+                                <div class="exercise-details">
+                                    <h4>Burpees</h4>
+                                    <p>3 sets x 10 reps</p>
+                                </div>
+                                <div class="exercise-timer">
+                                    <button class="timer-btn"><i class="fas fa-play"></i></button>
+                                    <span class="time-display">01:00</span>
+                                </div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="exercise-check">
+                                    <input type="checkbox" class="exercise-done">
+                                </div>
+                                <div class="exercise-details">
+                                    <h4>Mountain Climbers</h4>
+                                    <p>3 sets x 30 seconds</p>
+                                </div>
+                                <div class="exercise-timer">
+                                    <button class="timer-btn"><i class="fas fa-play"></i></button>
+                                    <span class="time-display">00:30</span>
+                                </div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="exercise-check">
+                                    <input type="checkbox" class="exercise-done">
+                                </div>
+                                <div class="exercise-details">
+                                    <h4>Jump Rope</h4>
+                                    <p>3 minutes</p>
+                                </div>
+                                <div class="exercise-timer">
+                                    <button class="timer-btn"><i class="fas fa-play"></i></button>
+                                    <span class="time-display">03:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fitness-progress">
+                    <h3>Your Progress</h3>
+                    <div class="progress-chart"></div>
+                </div>
+            </section>
+            
+            <section id="stretch" class="tab-content">
+                <h1>Stretching Sequence</h1>
+                <div class="stretch-container">
+                    <div class="stretch-instructions">
+                        <h3>Customize Your Sequence</h3>
+                        <p>Drag and drop to reorder your stretching routine</p>
+                        <button class="start-sequence">Start Sequence</button>
+                    </div>
+                    <div class="stretch-sequence">
+                        <div class="stretch-item" draggable="true">
+                            <div class="stretch-number">1</div>
+                            <div class="stretch-details">
+                                <h4>Neck Stretch</h4>
+                                <p>30 seconds each side</p>
+                            </div>
+                            <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+                        </div>
+                        <div class="stretch-item" draggable="true">
+                            <div class="stretch-number">2</div>
+                            <div class="stretch-details">
+                                <h4>Shoulder Rolls</h4>
+                                <p>10 forward, 10 backward</p>
+                            </div>
+                            <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+                        </div>
+                        <div class="stretch-item" draggable="true">
+                            <div class="stretch-number">3</div>
+                            <div class="stretch-details">
+                                <h4>Quad Stretch</h4>
+                                <p>30 seconds each leg</p>
+                            </div>
+                            <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+                        </div>
+                        <div class="stretch-item" draggable="true">
+                            <div class="stretch-number">4</div>
+                            <div class="stretch-details">
+                                <h4>Hamstring Stretch</h4>
+                                <p>45 seconds each leg</p>
+                            </div>
+                            <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+                        </div>
+                        <div class="stretch-item" draggable="true">
+                            <div class="stretch-number">5</div>
+                            <div class="stretch-details">
+                                <h4>Hip Flexor Stretch</h4>
+                                <p>30 seconds each side</p>
+                            </div>
+                            <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stretch-active hidden">
+                    <div class="current-stretch">
+                        <h3 class="stretch-name">Neck Stretch</h3>
+                        <div class="stretch-timer-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                                <circle class="timer-progress" cx="50" cy="50" r="45"></circle>
+                            </svg>
+                            <div class="timer-text">30</div>
+                        </div>
+                        <div class="stretch-controls">
+                            <button class="prev-stretch" disabled><i class="fas fa-step-backward"></i></button>
+                            <button class="pause-stretch"><i class="fas fa-pause"></i></button>
+                            <button class="next-stretch"><i class="fas fa-step-forward"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="journal" class="tab-content">
+                <h1>Mental Health Journal</h1>
+                <div class="journal-container">
+                    <div class="journal-sidebar">
+                        <div class="journal-filters">
+                            <h3>Journal Entries</h3>
+                            <input type="text" class="entry-search" placeholder="Search entries...">
+                            <div class="tag-filters">
+                                <h4>Filter by Tags</h4>
+                                <div class="tags">
+                                    <span class="tag" data-tag="anxiety">Anxiety</span>
+                                    <span class="tag" data-tag="happiness">Happiness</span>
+                                    <span class="tag" data-tag="stress">Stress</span>
+                                    <span class="tag" data-tag="gratitude">Gratitude</span>
+                                    <span class="tag" data-tag="goals">Goals</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="entry-list">
+                            <!-- Journal entries will be listed here -->
+                            <div class="entry-item">
+                                <div class="entry-date">June 15, 2023</div>
+                                <div class="entry-preview">Today was a good day. I managed to...</div>
+                                <div class="entry-tags">
+                                    <span class="tag-pill">Happiness</span>
+                                    <span class="tag-pill">Goals</span>
+                                </div>
+                            </div>
+                            <div class="entry-item">
+                                <div class="entry-date">June 12, 2023</div>
+                                <div class="entry-preview">Feeling a bit stressed about the upcoming...</div>
+                                <div class="entry-tags">
+                                    <span class="tag-pill">Stress</span>
+                                    <span class="tag-pill">Anxiety</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="new-entry-btn">New Entry</button>
+                    </div>
+                    <div class="journal-editor">
+                        <div class="entry-header">
+                            <input type="date" class="entry-date-input">
+                            <input type="text" class="entry-title" placeholder="Entry Title">
+                        </div>
+                        <div class="editor-tools">
+                            <button class="tool-btn" data-tool="bold"><i class="fas fa-bold"></i></button>
+                            <button class="tool-btn" data-tool="italic"><i class="fas fa-italic"></i></button>
+                            <button class="tool-btn" data-tool="underline"><i class="fas fa-underline"></i></button>
+                            <button class="tool-btn" data-tool="list"><i class="fas fa-list"></i></button>
+                        </div>
+                        <textarea class="journal-content" placeholder="Write your thoughts here..."></textarea>
+                        <div class="entry-tags-input">
+                            <h4>Tags</h4>
+                            <div class="tags-container">
+                                <input type="text" class="tag-input" placeholder="Add tag...">
+                                <div class="selected-tags">
+                                    <!-- Selected tags will appear here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mood-selection">
+                            <h4>How are you feeling?</h4>
+                            <div class="mini-emoji-buttons">
+                                <button class="mini-emoji-btn" data-mood="5">😁</button>
+                                <button class="mini-emoji-btn" data-mood="4">😊</button>
+                                <button class="mini-emoji-btn" data-mood="3">😐</button>
+                                <button class="mini-emoji-btn" data-mood="2">😔</button>
+                                <button class="mini-emoji-btn" data-mood="1">😢</button>
+                            </div>
+                        </div>
+                        <button class="save-entry">Save Entry</button>
+                    </div>
+                </div>
+                <div class="journal-analytics">
+                    <h3>Mood Patterns</h3>
+                    <div class="journal-chart"></div>
+                </div>
+            </section>
+            
+            <section id="weight" class="tab-content">
+                <h1>Weight Tracker</h1>
+                <div class="weight-container">
+                    <div class="weight-input">
+                        <h3>Log Your Weight</h3>
+                        <form class="weight-form">
+                            <div class="form-group">
+                                <label for="weight-date">Date</label>
+                                <input type="date" id="weight-date">
+                            </div>
+                            <div class="form-group">
+                                <label for="weight-value">Weight</label>
+                                <div class="weight-input-group">
+                                    <input type="number" id="weight-value" step="0.1">
+                                    <select id="weight-unit">
+                                        <option value="kg">kg</option>
+                                        <option value="lbs">lbs</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="weight-notes">Notes</label>
+                                <textarea id="weight-notes" placeholder="Any notes about your weight/measurements..."></textarea>
+                            </div>
+                            <button type="submit" class="save-weight">Save</button>
+                        </form>
+                    </div>
+                    <div class="weight-trends">
+                        <h3>Weight Trends</h3>
+                        <div class="weight-graph-container">
+                            <div class="weight-graph"></div>
+                        </div>
+                        <div class="weight-stats">
+                            <div class="stat">
+                                <h4>Starting</h4>
+                                <p><span class="starting-weight">70.0</span> kg</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Current</h4>
+                                <p><span class="current-weight">68.5</span> kg</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Change</h4>
+                                <p><span class="weight-change">-1.5</span> kg</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Goal</h4>
+                                <p><span class="weight-goal">65.0</span> kg</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="health" class="tab-content">
+                <h1>Health Dashboard</h1>
+                <div class="health-container">
+                    <div class="sync-device">
+                        <h3>Sync with Wearable</h3>
+                        <div class="device-selector">
+                            <select id="device-type">
+                                <option value="">Select Device</option>
+                                <option value="fitbit">Fitbit</option>
+                                <option value="apple">Apple Watch</option>
+                                <option value="garmin">Garmin</option>
+                                <option value="samsung">Samsung Galaxy Watch</option>
+                            </select>
+                            <button class="connect-device">Connect</button>
+                        </div>
+                        <div class="sync-status">
+                            <div class="status-indicator disconnected"></div>
+                            <p class="status-text">Not connected</p>
+                        </div>
+                    </div>
+                    <div class="health-metrics">
+                        <div class="metric-card">
+                            <h3><i class="fas fa-heartbeat"></i> Heart Rate</h3>
+                            <div class="metric-value">72 <span class="unit">bpm</span></div>
+                            <div class="metric-chart heart-chart"></div>
+                        </div>
+                        <div class="metric-card">
+                            <h3><i class="fas fa-walking"></i> Steps</h3>
+                            <div class="metric-value">6,248 <span class="unit">steps</span></div>
+                            <div class="steps-progress">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <p class="goal-text">Goal: 10,000 steps</p>
+                        </div>
+                        <div class="metric-card">
+                            <h3><i class="fas fa-fire"></i> Calories</h3>
+                            <div class="metric-value">1,450 <span class="unit">cal</span></div>
+                            <div class="metric-chart calorie-chart"></div>
+                        </div>
+                        <div class="metric-card">
+                            <h3><i class="fas fa-bed"></i> Sleep</h3>
+                            <div class="metric-value">7.5 <span class="unit">hrs</span></div>
+                            <div class="sleep-breakdown">
+                                <div class="sleep-phase deep" style="width: 35%;" title="Deep: 35%"></div>
+                                <div class="sleep-phase light" style="width: 45%;" title="Light: 45%"></div>
+                                <div class="sleep-phase rem" style="width: 20%;" title="REM: 20%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="health-insights">
+                    <h3>Health Insights</h3>
+                    <div class="insight-cards">
+                        <div class="insight">
+                            <h4>Sleep & Activity Correlation</h4>
+                            <div class="correlation-chart"></div>
+                            <p>Your activity levels tend to be higher when you get 7+ hours of sleep.</p>
+                        </div>
+                        <div class="insight">
+                            <h4>Heart Rate Variability</h4>
+                            <div class="hrv-chart"></div>
+                            <p>Your HRV indicates moderate stress levels. Try breathing exercises to improve.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+        </main>
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="login.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/mood.js"></script>
+    <script src="js/water.js"></script>
+    <script src="js/sleep.js"></script>
+    <script src="js/weight.js"></script>
+    <script src="js/health.js"></script>
+    <script src="js/fitness.js"></script>
+    <script src="js/stretch.js"></script>
+    <script src="js/meditation.js"></script>
+    <script src="js/journal.js"></script>
+    <script src="js/breathing.js"></script>
+    <script src="js/meals.js"></script>
+    <script src="js/settings.js"></script>
+
+    <script>
+        // Apply loaded class once everything is ready
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html> 

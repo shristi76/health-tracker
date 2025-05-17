@@ -1,0 +1,332 @@
+/* Root Variables */
+:root {
+    --primary-color: #000000;
+    --primary-light: #333333;
+    --primary-dark: #000000;
+    --secondary-color: #10b981;
+    --accent-color: #6b34eb;
+    --bg-color: #f9fafb;
+    --form-bg: #f17df5;
+    --text-dark: #000000;
+    --text-light: #9ca3af;
+    --text-lighter: #f3f4f6;
+    --border-color: #e5e7eb;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Left: Form Section */
+.form-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: var(--form-bg);
+}
+
+/* Form Wrapper */
+.form-wrapper {
+    width: 100%;
+    max-width: 450px;
+    opacity: 0; /* For GSAP intro animation */
+    animation: fadeIn 1s forwards;
+}
+
+/* Logo */
+.logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Toggle Buttons */
+.toggle-buttons {
+    display: flex;
+    position: relative;
+    background-color: var(--border-color);
+    border-radius: 50px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.toggle-btn {
+    flex: 1;
+    border: none;
+    padding: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: var(--transition);
+}
+
+.toggle-btn.active {
+    color: white;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    background-color: var(--primary-color);
+    border-radius: 50px;
+    transition: var(--transition);
+}
+
+/* Form Styling */
+.form {
+    display: none;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.form.active {
+    display: block;
+    opacity: 1;
+}
+
+.form h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form p {
+    color:black;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* Input Fields */
+.input-group {
+    margin-bottom: 0rem;
+    position: relative;
+    /* position:sticky; */
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Password Toggle Icon */
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    top: 2.6rem;
+    cursor: pointer;
+    color: var(--text-light);
+}
+
+/* Checkbox & Forgot Password */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+}
+
+.forgot-password {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-light);
+}
+
+/* Right: Image Section */
+.image-container {
+    flex: 1;
+    background-image: url('https://images.unsplash.com/photo-1571019613914-85f342c6a11e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: none; /* hidden on mobile */
+}
+
+/* Image Overlay */
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(79, 70, 229, 0.7), rgba(236, 72, 153, 0.7));
+}
+
+/* Wellness Quotes */
+.wellness-quotes {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    width: 80%;
+    opacity: 0; /* for GSAP */
+}
+
+.wellness-quotes h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.wellness-quotes p {
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* Notification Popup */
+.notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* GSAP Animation Helpers */
+.form-animate-in {
+    animation: formIn 0.5s forwards;
+}
+
+.form-animate-out {
+    animation: formOut 0.5s forwards;
+}
+
+@keyframes formIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes formOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .image-container {
+        display: block;
+    }
+}
+

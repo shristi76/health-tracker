@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellnessHub - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-wrapper">
+                <div class="logo">
+                    <h2>WellnessHub</h2>
+                </div>
+
+                <!-- Toggle Buttons -->
+                <div class="toggle-buttons">
+                    <button type="button" class="toggle-btn active" id="login-toggle">Login</button>
+                    <button type="button" class="toggle-btn" id="signup-toggle">Sign Up</button>
+                    <div class="slider"></div>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="form active" autocomplete="on">
+                    <h3>Welcome Back</h3>
+                    <p>Enter your credentials to access your account</p>
+
+                    <div class="input-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" name="login-email" autocomplete="email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="login-password" autocomplete="current-password" required>
+                        <i class="toggle-password fas fa-eye-slash"></i>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember-me" name="remember-me">
+                        <label for="remember-me">Remember me</label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="signup-form" class="form" autocomplete="on">
+                    <h3>Create Account</h3>
+                    <!-- <p>Create your account to start tracking your wellness journey</p> -->
+
+                    <div class="input-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" name="signup-name" autocomplete="name" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" name="signup-email" autocomplete="email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" name="signup-password" autocomplete="new-password" required>
+                        <i class="toggle-password fas fa-eye-slash"></i>
+                    </div>
+
+                    <!-- <div class="input-group">
+                        <label for="signup-confirm">Confirm Password</label>
+                        <input type="password" id="signup-confirm" name="signup-confirm" autocomplete="new-password" required>
+                        <i class="toggle-password fas fa-eye-slash"></i>
+                    </div> -->
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" name="terms">
+                        <label for="terms">I agree to the <a href="#">Terms &amp; Conditions</a></label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <div class="image-overlay"></div>
+            <div class="wellness-quotes">
+                <h2>Track Your Wellness Journey</h2>
+                <p>"The journey of a thousand miles begins with a single step."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts at the end for better performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>
+
