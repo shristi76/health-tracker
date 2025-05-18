@@ -46,7 +46,8 @@
 body {
     font-family: 'Poppins', sans-serif;
     /* background-color: var(--bg-color); */
-    background-color: rgb(95, 70, 236);
+    /* background-color: rgb(95, 70, 236); */
+     background: linear-gradient(to right, #ff7eb3, #3903fd);
     color: var(--text-dark);
     line-height: 1.6;
     min-height: 100vh;
