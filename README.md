@@ -88,10 +88,5 @@ The application uses browser LocalStorage for data persistence:
 - Meal logs
 - Fitness activities
 
-## License
-
-This project is open source and available under the MIT License.
-
----
-
+https://shristi76.github.io/health-tracker/
 Created with ❤️ for a healthier, happier life. 
